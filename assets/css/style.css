@@ -1,0 +1,213 @@
+
+
+a,
+a:visited{
+    color: white;
+    text-decoration: none;
+}
+.content{
+    background: rgba(0,0,0,.9);
+    min-height: 100vh;
+    padding: 0 2em;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+
+    font-family: sans-serif;
+    color: white;
+
+
+    
+}
+.game-title{
+    margin: .5rem;
+
+    text-transform: uppercase;
+    font-size: 2rem;
+    letter-spacing: .5rem;
+    text-align: center;
+
+}
+.character.hidden{
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 1rem 0;
+    transition: 1s;
+    max-width: 0;
+}
+.character.hidden .info{
+    width: 120px;
+}
+
+.game-wrap{
+    min-width: 800px;
+    background:rgba(255,255,255,.1);
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+
+
+}
+
+.char-bank{
+    background: rgba(255,255,255,.2);
+    display: flex;   
+    justify-content: center;
+    max-height: 400px;
+    transition: 1s;
+}
+.char-bank.hidden{
+    opacity: 0;
+    max-height: 0;
+}
+
+.character{
+    padding: .3rem;
+    max-width: 120px;
+    background: #000000e6;
+    margin: 1rem .5rem;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: 1s;
+
+}
+
+.character .img-wrap{
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.character img{
+    display: block;
+
+    
+
+}
+
+.character .info{
+    background: black;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-height: 3rem;
+
+}
+.character .name,
+.character .hp,
+.character .attack,
+.character .counter{
+    display: block;
+}
+
+.arena{
+    background: white;
+    position: relative;
+}
+
+.match-row .hp-wrap{
+    background: black;
+    padding: 3px 0;
+    padding: 1px 0;
+    border: solid rgba(255,255,255,.4) 1px;
+    display: flex;
+}
+
+.player-wrap .hp-wrap{
+    justify-content: flex-end;
+}
+.defender-wrap .hp-wrap{
+    justify-content: flex-start;
+}
+
+.game-row,
+.series-row{
+    display: flex;
+    justify-content: center;
+    padding: .2rem;
+    text-transform: uppercase;
+}
+
+.game-row{
+    padding: 0;
+    margin-bottom: .8rem;
+}
+
+
+.wins-label,
+.losses-label,
+.attack-label,
+.counter-label{
+    margin: 0 1rem;
+}
+
+.wins,
+.losses{
+    margin: 0 1rem;
+    padding: .1rem 1rem;
+    border-left: solid 1px white;
+    border-right: solid 1px white;
+}
+
+.match-row .hp{
+    background: rgba(0,255,100,1);
+    width: 100%;
+    font-size: .8rem;
+    padding: 2px 0;
+    transition: .5s;
+}
+
+.match-row{
+    height: 400px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+}
+
+.start{
+    opacity: 1;
+    position: absolute;
+    padding: 1rem;
+    background: rgba(0,0,0,.8);
+    color: white;
+    border: solid 2px black;
+    border-radius: 10px;
+    transition: 1s;
+}
+
+
+.player-wrap,
+.defender-wrap{
+    height: 200px;
+    width: 200px;
+    background: green;
+}
+
+.info-wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+.button-row{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.stats{
+    background:rgba(0,0,0,.9);
+    padding: 1rem;
+}
