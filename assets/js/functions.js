@@ -7,7 +7,7 @@
 
 // // CHARACTER BANK
 var charBank = [
-        {name : "Darth Maul", hp : 600 , drain : 600, baseAttack : 12 , counter : 6 , canFight: true},
+        {name : "Darth Maul", hp : 600 , drain : 600, baseAttack : 120 , counter : 6 , canFight: true},
         {name : "Yoda", hp : 600 , drain: 600, baseAttack : 12 , counter : 6, canFight: true},
         {name : "Jar Jar Binks" , hp : 500 , drain : 500 , baseAttack : 11 , counter : 1, canFight: true},
         {name : "Jar Jar Binks" , hp : 500 , drain : 500 , baseAttack : 11 , counter : 1, canFight: true},
@@ -20,22 +20,27 @@ var background = [
         "assets/images/background-2.jpg",
         "assets/images/background-3.jpg",
         "assets/images/background-4.jpg"
-
 ];
 
+function loadBackdrop () {
+    var i = Math.floor(Math.random()*background.length);
+    $(".arena").css("background-image", "url(" + background[i] + ")");
+    console.log("backdrop: " + background[i]);
+}
 
-var gameActive = false;
+
 var gameReady = false;
 // // REMAINING BANK
 var remBank;
 // // PLAYER
 var player;
 var playerActive = false;
+var attack;
 // // DEFENDER
 var defender;
 var defenderActive = false;
 // // COUNTDOWN CLOCK
-var clock = 4;
+var clock = 3;
 // // LEVEL
 var level = 10;
 // // WINS
@@ -49,10 +54,59 @@ var messages = {
     chooseDefender : "Please select an opponent", 
     nextRound : "Choose your next opponent"};
 
-var buttonText = {
-    startGame: "Start Game",
-    startRound: "Start Round",
-    playAgain: "Play Again"};
+var buttonText = [
+{ text : "Start Game", active: false, func : countDown},
+{ text : "Next Round", active: false, func : nextRound},
+{ text : "Start Round", active: false, func : countDown},
+{ text : "Play Again" , active: false, func : gameReset}
+];
+
+function startButton(){
+    for(var i = 0; i < buttonText.length; i++){
+        if(buttonText[i].active){
+          buttonText[i].func();
+          buttonClear();
+
+        }
+    }
+
+}
+
+function buttonReady(num){
+    $(".start").text(buttonText[num].text);
+    $(".start").removeClass("hidden");
+    buttonText[num].active = true;
+    console.log("buttonReady" + num);
+}
+
+function buttonClear(){
+    for(var i = 0; i < buttonText.length; i++){
+        buttonText[i].active = false;
+    }
+    $(".start").addClass("hidden");
+}
+
+
+function nextRound (){
+    defender = false;
+    level++;
+    buttonClear();
+    $(".char-bank").removeClass("hidden");
+    $(".defender-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
+    $(".player-wrap .attack").text(player.baseAttack*level);
+    defenderClear();
+    
+}
+function roundReady(){
+    if(level > 1){ 
+        buttonReady(2);
+
+    } else {
+        buttonReady(0);
+    }
+    gameReady = true;
+
+}
 
 // // CHARACTER BASE ATTACK
 // // CHARACTER ATTACK = CHARACTER BASE ATTACK * LEVEL
@@ -77,16 +131,48 @@ function gameReset(){
     $(".level").text(level);
     remBank = charBank;
     $(".char-bank").empty();
+    $(".defender-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
+    $(".player-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
+    $(".player-wrap").addClass("hidden");
+    $(".defender-wrap").addClass("hidden");
     player = 0;
     defender = 0;
-    gameActive = false;
+    playerClear();
+    defenderClear();
+    if(wins > 0 || losses || 0){
+        $(".start").addClass("hidden");
+    }
     loadCharBank();
     loadBackdrop();
+}
+
+function playerClear(){
+    var img = $(".player-wrap .image-wrap img");
+    var name = $(".player-wrap .name");
+    var attack = $(".player-wrap .attack");
+    var counter = $(".player-wrap .counter");
+    img.empty();
+    name.empty();
+    attack.empty();
+    counter.empty();
+}
+function defenderClear(){
+    var img = $(".defender-wrap .image-wrap img");
+    var name = $(".defender-wrap .name");
+    var attack = $(".defender-wrap .attack");
+    var counter = $(".defender-wrap .counter");
+    img.empty();
+    name.empty();
+    attack.empty();
+    counter.empty();
+
+
 }
 
 
 function loadCharBank(){
     $(".char-bank").empty();
+    $(".char-bank").removeClass("hidden");
     for(var i = 0; i < remBank.length; i++){
         var j = i+1;
         var char = $("<div>");
@@ -120,22 +206,18 @@ function assignChar() {
             var attack = $(".defender-wrap .attack");
             var counter = $(".defender-wrap .counter");
             defender = remBank[i];
-            remBank = remBank.splice(i , 1);
+            remBank[i].canFight = false;
             img.attr("src" , "assets/images/character-" + i + ".jpg");
             name.text(defender.name);
             attack.text(defender.baseAttack);
             counter.text(defender.counter);
-            remBank.splice(i, 1);
             $(".defender-wrap attack-label").text("Attack:");
             $(".defender-wrap counter-label").text("Counter-attack:")
+            $(".defender-wrap").removeClass("hidden");
             $(".character-"+i).addClass("hidden");
-            if(level > 1){
-            $(".start").css("opacity", "1");
-            $(".start").text("Start Round");
-            } else {
-                $(".start").text("Start Game");
-                gameReady = true;
-            }
+            roundReady();
+            console.log(buttonText);
+
         } else if(player == false){
             var i = $(this).attr("data-character");
             var img = $(".player-wrap .image-wrap img");
@@ -143,16 +225,16 @@ function assignChar() {
             var attack = $(".player-wrap .attack");
             var counter = $(".player-wrap .counter");
             player = remBank[i];
+            remBank[i].canFight = false;
             img.attr("src" , "assets/images/character-" + i + ".jpg");
             name.text(player.name);
             attack.text(player.baseAttack);
             counter.text(player.counter);
-            remBank.splice(i, 1);
             $(".character-"+i).addClass("hidden");
+            $(".player-wrap").removeClass("hidden");
         }
 
 }
-
 
 
 
@@ -195,6 +277,7 @@ function assignChar() {
 //         GAME COUNTDOWN CLOCK APPEARS (3 SECONDS)
 
 function countDown(){
+    loadBackdrop();
     if(gameReady === true){
         var x = setInterval(function(){
         clock--;
@@ -205,18 +288,18 @@ function countDown(){
             playerActive = true;
             defenderActive = true;
             defenderFight();
-            $(".message").empty();
+            $(".message").empty("PRESS F TO FIGHT!!");
             $(".char-bank").addClass("hidden");
             gameReady = false;
         }
 
-        },10);
+        },1000);
     }
 }
 
 function playerFight(){
     if(playerActive === true && defender.drain > 0){
-        var attack = player.baseAttack*level;
+        attack = player.baseAttack*level;
         defender.drain = defender.drain-attack-defender.counter;
         var hpGreen = (defender.drain/defender.hp)*255;
         var hpRed = 255 - ((defender.drain/defender.hp)*255);
@@ -226,13 +309,12 @@ function playerFight(){
         // console.log("hp Red" + hpRed);
         // console.log("hp Green" + hpGreen);
 
-    } else{
+    } else if (defender.drain <= 0){
         endRound();
         winRound();
-        console.log("defenderActive" + defenderActive);
     }
 }
-
+ 
 function defenderFight(){
     console.log("function is running");
     var rand = 200;
@@ -256,17 +338,14 @@ function defenderFight(){
             endRound();
             endGame();
             loseGame();
-        } else if(defenderActive === false){
+            buttonReady(3);
+        } else if (defenderActive === false){
             clearInterval(y);
         }
     }, rand );
 }
 
-function loadBackdrop () {
-    var i = Math.floor(Math.random)*background.length;
-    $(".background").attr("src", background[i]);
-    console.log("backdrop: " + background[i]);
-}
+
 
 function loseGame(){
     endGame();
@@ -281,61 +360,27 @@ function winGame(){
 function endRound(){
     playerActive = false;
     defenderActive = false;
+    if(player.drain <= 0){
+        endGame();
+    }
 }
 function winRound(){
     defender.hp = 0;
+    var beatAll = true;
+    for (var i = 0; i < remBank.length; i++){
+        if(remBank[i].canFight === true){
+            beatAll = false;
+        }
+    }
+    if(beatAll){
+        winGame()
+    } else {
+    buttonReady(1);
+    }
 }
 
 function endGame(){
-    gameActive = false;
 }
-
-        
-// // WHEN COUNTDOWN REACHES 0
-//         EVERY TIME USER HITS "SPACEBAR" IF(ROUND ACTIVE)            
-//             DEFENDER.HP - (USER ATTACK - COUNTER ATTACK)
-//             **SPECIAL ATTACK ++
-//
-        //IF(DEFENDER.HP =< 0)
-        //           DEFENDER.HP = 0;
-        //           ROUND ACTIVE = FALSE;
-        //           FUNCTION ROUND RESET
-        //           DEFENDER'S CHARACTER REMOVED
-
-
-
-//                     // ON 'NEXT ROUND' CLICK
-//                         LEVEL ++
-//                         REMAINING BANK LOADS
-//                         ALERT : SELECT NEW DEFENDER
-//                         IF(DEFENDER SELECTED)
-//                             START BUTTON APPEARS
-                            
-
-
-
-        
-//         WHILE (ROUND ACTIVE)
-//             DEFENDER WAITS RANDOM TIME (.1 : .8 SECONDS)
-//             PLAYER.HP - ( COMPUTER ATTACK - COUNTER ATTACK)
-//             **SPECIAL ATTACK++
-
-//                     LOSSES ++
-//                     DEFENDER GLOATS
-//                     PLAY AGAIN BUTTON APPEARS
-//                         PLAY AGAIN ON CLICK (GAME RESET)
-//                             REMAINING BANK = PLAYER BANK
-
-
-
-            
-            
-
-        
-
-    
-
-
 
 
 
@@ -344,11 +389,11 @@ function endGame(){
 $(document).ready(gameReset);
 
 $("body").on("click", ".game-title", gameReset);
-$("body").on("click", ".start", countDown);
+$("body").on("click", ".start", startButton);
 $("body").on("click", ".character", assignChar);
 
 document.onkeyup = function(event){
-    if(event.keyCode == 32){
+    if(event.keyCode == 70){
         playerFight();
     }
 }

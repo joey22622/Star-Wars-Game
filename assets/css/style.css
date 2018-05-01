@@ -51,7 +51,6 @@ a:visited{
     justify-content: stretch;
     align-items: stretch;
 
-
 }
 
 .char-bank{
@@ -113,6 +112,13 @@ a:visited{
 .arena{
     background: white;
     position: relative;
+}
+
+.background{
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
 }
 
 .match-row .hp-wrap{
@@ -178,21 +184,43 @@ a:visited{
 
 .start{
     opacity: 1;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    max-width: none;
+    padding: .9em;
     position: absolute;
-    padding: 1rem;
     background: rgba(0,0,0,.8);
     color: white;
     border: solid 2px black;
-    border-radius: 10px;
-    transition: 1s;
+    border-radius: 1.5rem;
+    transition: .5s;
+    cursor: pointer;
 }
+
+.start:hover{
+    
+}
+
+.start.hidden{
+    opacity : 0;
+    padding: 0;
+    pointer-events: none;
+}
+
 
 
 .player-wrap,
 .defender-wrap{
+    opacity: 1;
     height: 200px;
     width: 200px;
-    background: green;
+    transition: 1s;
+}
+
+.player-wrap.hidden,
+.defender-wrap.hidden{
+    opacity: 0;
 }
 
 .info-wrap{
