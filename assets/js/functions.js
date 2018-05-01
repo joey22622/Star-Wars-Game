@@ -7,11 +7,11 @@
 
 // // CHARACTER BANK
 var charBank = [
-        {name : "Darth Maul", hp : 600 , drain : 600, baseAttack : 120 , counter : 6 , canFight: true},
-        {name : "Yoda", hp : 600 , drain: 600, baseAttack : 12 , counter : 6, canFight: true},
-        {name : "Jar Jar Binks" , hp : 500 , drain : 500 , baseAttack : 11 , counter : 1, canFight: true},
-        {name : "Jar Jar Binks" , hp : 500 , drain : 500 , baseAttack : 11 , counter : 1, canFight: true},
-        {name : "Jar Jar Binks" , hp : 500 , drain : 500 , baseAttack : 11 , counter : 1, canFight: true }
+        {name : "Darth Maul", hp : 1600 , drain : 1600, baseAttack : 60 , counter : 12 , canFight: true},
+        {name : "Yoda", hp : 1400 , drain: 1400, baseAttack : 40 , counter : 6, canFight: true},
+        {name : "Jar Jar Binks" , hp : 5 , drain : 5 , baseAttack : 20 , counter : 1, canFight: true},
+        {name : "Palpatine" , hp : 2000 , drain : 2000 , baseAttack : 40 , counter : 14, canFight: true},
+        {name : "Vader" , hp : 1900 , drain : 1900 , baseAttack : 60 , counter : 22, canFight: true }
     ];
 
 var background = [

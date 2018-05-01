@@ -89,9 +89,10 @@ a:visited{
 }
 .character img{
     display: block;
+}
 
+.message{
     
-
 }
 
 .character .info{
@@ -118,7 +119,6 @@ a:visited{
     display: block;
     height: 100%;
     width: 100%;
-    position: absolute;
 }
 
 .match-row .hp-wrap{
