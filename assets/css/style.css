@@ -6,7 +6,7 @@ a:visited{
     text-decoration: none;
 }
 .content{
-    background: rgba(0,0,0,.9);
+    background: rgba(0,0,0,.95);
     min-height: 100vh;
     padding: 0 2em;
     
@@ -16,9 +16,6 @@ a:visited{
 
     font-family: sans-serif;
     color: white;
-
-
-    
 }
 .game-title{
     margin: .5rem;
@@ -40,6 +37,20 @@ a:visited{
 .character.hidden .info{
     width: 120px;
 }
+.info{
+    font-size: .6rem;
+    letter-spacing: .1rem;
+    line-height: 1rem;
+    color: rgba(255,255,255,.6);
+}
+.info .name{
+    color: white;
+    display: block;
+    text-align: center;
+    line-height: 1.8rem;
+    font-size: .6rem;
+    letter-spacing: .2rem;
+}
 
 .game-wrap{
     min-width: 800px;
@@ -54,11 +65,13 @@ a:visited{
 }
 
 .char-bank{
-    background: rgba(255,255,255,.2);
+    background: rgba(200,200,200,.1);
+    border: solid 3px rgba(0,0,0,.8);
     display: flex;   
     justify-content: center;
     max-height: 400px;
     transition: 1s;
+    padding: 1rem;
 }
 .char-bank.hidden{
     opacity: 0;
@@ -69,12 +82,11 @@ a:visited{
     padding: .3rem;
     max-width: 120px;
     background: #000000e6;
-    margin: 1rem .5rem;
+    border: solid 4px rgba(0,0,0,.8);
+    margin: 0 .5rem;
     
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    justify-content: space-between;
     text-transform: uppercase;
 
     cursor: pointer;
@@ -82,37 +94,55 @@ a:visited{
 
 }
 
+.character:hover{
+    border: solid 4px rgba(255,255,255,.8);
+}
+
+
 .character .img-wrap{
     display: flex;
     justify-content: center;
     overflow: hidden;
+
 }
+.image-wrap img,
 .character img{
     display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
 
 .message{
+    padding: 1rem;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: .8rem;
+    letter-spacing: .1rem;
     
 }
 
 .character .info{
     background: black;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
     min-height: 3rem;
-
+    justify-content: space-between;
 }
-.character .name,
+
+
+
 .character .hp,
 .character .attack,
 .character .counter{
-    display: block;
+    display: flex;
+    justify-content: space-between;
 }
 
 .arena{
     background: white;
     position: relative;
+    border: solid 2px rgba(0,0,0,.8);
 }
 
 .background{
@@ -188,6 +218,7 @@ a:visited{
     text-transform: uppercase;
     letter-spacing: .2rem;
     max-width: none;
+    margin-top: 2rem;
     padding: .9em;
     position: absolute;
     background: rgba(0,0,0,.8);
@@ -199,7 +230,8 @@ a:visited{
 }
 
 .start:hover{
-    
+    border: solid 2px white;
+
 }
 
 .start.hidden{
@@ -216,6 +248,7 @@ a:visited{
     height: 200px;
     width: 200px;
     transition: 1s;
+    border: solid 2px rgba(0,0,0,.8);
 }
 
 .player-wrap.hidden,
@@ -226,6 +259,14 @@ a:visited{
 .info-wrap{
     display: flex;
     flex-direction: column;
+    font-size: .7rem;
+    text-align: center;
+    line-height: 1.4rem;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+
+
+
 }
 
 .button-row{

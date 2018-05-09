@@ -108,6 +108,14 @@ function roundReady(){
 
 }
 
+function imageWidth(){
+    var width = $(".character img").height();
+    $(".character img").css("width", width);
+    console.log(width);
+}
+
+imageWidth();
+
 // // CHARACTER BASE ATTACK
 // // CHARACTER ATTACK = CHARACTER BASE ATTACK * LEVEL
 // // CHARACTER HP
@@ -184,9 +192,9 @@ function loadCharBank(){
         var attack = $('<span class ="attack">');
         var counter = $('<span class ="counter">');
         name.text(remBank[i].name);
-        hp.text(remBank[i].hp);
-        attack.text(remBank[i].baseAttack);
-        counter.text(remBank[i].counter);
+        hp.html("<span>HEALTH:</span>"  + "<span>" + remBank[i].hp) + "</span>";
+        attack.html("<span>ATTACK:</span>" + "<span>" +   remBank[i].baseAttack) + "</span>";
+        counter.html("<span>COUNTER:</span>" + "<span>" + remBank[i].counter) + "</span>";
         img.attr({"src" : "assets/images/character-"+i+".jpg"})
         char.attr({"data-character" : i , "class" : "character character-" +(i)});
         imgWrap.append(img);
