@@ -91,10 +91,11 @@ function nextRound (){
     defender = false;
     level++;
     buttonClear();
+    defenderClear();
     $(".char-bank").removeClass("hidden");
+    $(".level").text(level);
     $(".defender-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
     $(".player-wrap .attack").text(player.baseAttack*level);
-    defenderClear();
     
 }
 function roundReady(){
@@ -155,26 +156,18 @@ function gameReset(){
 }
 
 function playerClear(){
-    var img = $(".player-wrap .image-wrap img");
-    var name = $(".player-wrap .name");
-    var attack = $(".player-wrap .attack");
-    var counter = $(".player-wrap .counter");
-    img.empty();
-    name.empty();
-    attack.empty();
-    counter.empty();
+    $(".player-wrap .image-wrap img");
+    $(".player-wrap .name");
+    $(".player-wrap .attack");
+    $(".player-wrap .counter");
+
 }
 function defenderClear(){
-    var img = $(".defender-wrap .image-wrap img");
-    var name = $(".defender-wrap .name");
-    var attack = $(".defender-wrap .attack");
-    var counter = $(".defender-wrap .counter");
-    img.empty();
-    name.empty();
-    attack.empty();
-    counter.empty();
-
-
+    $(".defender-wrap").addClass("hidden");
+    $(".defender-wrap .image-wrap img").empty();
+    $(".defender-wrap .name").empty();
+    $(".defender-wrap .attack").empty();
+    $(".defender-wrap .counter").empty();
 }
 
 
@@ -244,49 +237,10 @@ function assignChar() {
 
 }
 
-
-
-
-
-
-
-//         SELECT CHARACTER
-//             IF(PLAYER){
-//                 SET CHARACTER AS DEFENDER
-//             } SET CHARACTER AS PLAYER
-
-//         START ROUND
-//             IF(LEVELS>0){
-//                 START.TEXT (START ROUND)
-//             }   START GAME
-
-//         FUNCTION WIN ROUND
-
-
-
-// 
-// // BASIC ACIONS
-
-
-
-// //     PLAYER CHOOSES THEIR CHARACTER
-//             CHARACTER OBJECT BECOMES PLAYER
-//             CHARACTER OBJECT REMOVED FROM PLAYERS REMAINING
-// //     PLAYER CHOOSES DIFFERENT STARTING OPPONENT (DEFENDER)
-//             CHARACTER OBJECT BECOMES DEFENDER
-//             CHARACTER OBJECT REMOVED FROM PLAYERS REMAINING
-            
-
-// //     GAME 'START' BUTTON APPEARS / GAME COMMENCES WHEN PLAYER CLICKS
-
-// // ON 'START' CLICK
-//         PLAYER OBJECT LOADS AS PLAYER 1
-//         DEFENDER OBJECT LOADS AS PLAYER 2
-//         GAME COUNTDOWN CLOCK APPEARS (3 SECONDS)
-
 function countDown(){
     loadBackdrop();
     if(gameReady === true){
+        clock = 3;
         var x = setInterval(function(){
         clock--;
         $(".message").text(clock);
@@ -296,7 +250,7 @@ function countDown(){
             playerActive = true;
             defenderActive = true;
             defenderFight();
-            $(".message").empty("PRESS F TO FIGHT!!");
+            $(".message").text("PRESS SPACE KEY TO FIGHT!!");
             $(".char-bank").addClass("hidden");
             gameReady = false;
         }
@@ -400,10 +354,17 @@ $("body").on("click", ".game-title", gameReset);
 $("body").on("click", ".start", startButton);
 $("body").on("click", ".character", assignChar);
 
+// document.onkeyup = function(event){
+//     if(event.keyCode == 70){
+//         playerFight();
+//     }
+// }
+
+
+
 document.onkeyup = function(event){
-    if(event.keyCode == 70){
+    if(event.keyCode == 32){
+        $(".start").blur();
         playerFight();
     }
 }
-
-
