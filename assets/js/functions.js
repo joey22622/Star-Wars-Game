@@ -1,13 +1,9 @@
 
 // GLOBAL VARIABLES
 // // CHARACTER BANK
-var charBank = [
-        {name : "Darth Maul", hp : 1600 , drain : 1600, baseAttack : 60 , counter : 12 , canFight: true},
-        {name : "Yoda", hp : 1400 , drain: 1400, baseAttack : 40 , counter : 6, canFight: true},
-        {name : "Jar Jar Binks" , hp : 5 , drain : 5 , baseAttack : 20 , counter : 1, canFight: true},
-        {name : "Palpatine" , hp : 2000 , drain : 2000 , baseAttack : 40 , counter : 14, canFight: true},
-        {name : "Vader" , hp : 1900 , drain : 1900 , baseAttack : 60 , counter : 22, canFight: true }
-    ];
+var charBank = [];
+// // REMAINING BANK
+var remBank = [];
 
 // ARRAY OF BACKGROUND IMAGES THAT ARE RANDOMLY ASSIGNED DURING GAMEPLAY
 var background = [
@@ -22,8 +18,7 @@ var background = [
 
 
 var gameReady = false;
-// // REMAINING BANK
-var remBank;
+
 var player;
 var playerActive = false;
 var attack;
@@ -84,6 +79,8 @@ function buttonClear(){
 
 //reassigns level, preps game for next round
 function nextRound (){
+    console.log(charBank);
+    console.log(remBank);
     defender = false;
     level++;
     buttonClear();
@@ -116,12 +113,25 @@ imageWidth();
 
 //returns game to onload look (excluding wins and losses fields)
 function gameReset(){
+    charBank = [        
+        {name : "Darth Maul", hp : 1600 , drain : 1600, baseAttack : 60 , counter : 12 , canFight: true},
+        {name : "Yoda", hp : 1400 , drain: 1400, baseAttack : 40 , counter : 6, canFight: true},
+        {name : "Jar Jar Binks" , hp : 5 , drain : 5 , baseAttack : 20 , counter : 1, canFight: true},
+        {name : "Palpatine" , hp : 2000 , drain : 2000 , baseAttack : 40 , counter : 14, canFight: true},
+        {name : "Vader" , hp : 1900 , drain : 1900 , baseAttack : 60 , counter : 22, canFight: true }
+    ];
+    console.log("reseting");
+    console.log(charBank);
     $(".wins").text(wins);
     $(".losses").text(losses);
     $(".message").text(messages.choosePlayer);
     level = 1;
     $(".level").text(level);
-    remBank = charBank;
+    remBank = [];
+    for(var i = 0; i < charBank.length; i++){
+    remBank.push(charBank[i]);
+    }
+    console.log(remBank);
     $(".char-bank").empty();
     $(".defender-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
     $(".player-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
