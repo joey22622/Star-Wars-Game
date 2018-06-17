@@ -1,10 +1,5 @@
-// Health Points, Attack Power and Counter Attack Power
 
-// GAME VARIABLES
-
-
-
-
+// GLOBAL VARIABLES
 // // CHARACTER BANK
 var charBank = [
         {name : "Darth Maul", hp : 1600 , drain : 1600, baseAttack : 60 , counter : 12 , canFight: true},
@@ -14,6 +9,7 @@ var charBank = [
         {name : "Vader" , hp : 1900 , drain : 1900 , baseAttack : 60 , counter : 22, canFight: true }
     ];
 
+// ARRAY OF BACKGROUND IMAGES THAT ARE RANDOMLY ASSIGNED DURING GAMEPLAY
 var background = [
         "assets/images/background-0.jpg",
         "assets/images/background-1.jpg",
@@ -22,38 +18,30 @@ var background = [
         "assets/images/background-4.jpg"
 ];
 
-function loadBackdrop () {
-    var i = Math.floor(Math.random()*background.length);
-    $(".arena").css("background-image", "url(" + background[i] + ")");
-    console.log("backdrop: " + background[i]);
-}
+
 
 
 var gameReady = false;
 // // REMAINING BANK
 var remBank;
-// // PLAYER
 var player;
 var playerActive = false;
 var attack;
-// // DEFENDER
 var defender;
 var defenderActive = false;
 // // COUNTDOWN CLOCK
 var clock = 3;
-// // LEVEL
 var level = 10;
-// // WINS
 var wins = 0;
-// // LOSSES
 var losses = 0;
 
-
+// Messages that display during different points in the game
 var messages = {
     choosePlayer : "Please select your character", 
     chooseDefender : "Please select an opponent", 
     nextRound : "Choose your next opponent"};
 
+//Stores button text and methods that appear/run depending on "active" boolean
 var buttonText = [
 { text : "Start Game", active: false, func : countDown},
 { text : "Next Round", active: false, func : nextRound},
@@ -61,6 +49,7 @@ var buttonText = [
 { text : "Play Again" , active: false, func : gameReset}
 ];
 
+//Checks which button function is set to run, runs it, then resets the button
 function startButton(){
     for(var i = 0; i < buttonText.length; i++){
         if(buttonText[i].active){
@@ -71,14 +60,21 @@ function startButton(){
     }
 
 }
+//Loads a random backgrop
+function loadBackdrop () {
+    var i = Math.floor(Math.random()*background.length);
+    $(".arena").css("background-image", "url(" + background[i] + ")");
+}
 
+
+//sets start button to appropriate function depending on moment in the game
 function buttonReady(num){
     $(".start").text(buttonText[num].text);
     $(".start").removeClass("hidden");
     buttonText[num].active = true;
-    console.log("buttonReady" + num);
 }
 
+//hides button, disables button functions
 function buttonClear(){
     for(var i = 0; i < buttonText.length; i++){
         buttonText[i].active = false;
@@ -86,18 +82,20 @@ function buttonClear(){
     $(".start").addClass("hidden");
 }
 
-
+//reassigns level, preps game for next round
 function nextRound (){
     defender = false;
     level++;
     buttonClear();
     defenderClear();
+    $(".message").text(messages.nextRound);
     $(".char-bank").removeClass("hidden");
     $(".level").text(level);
     $(".defender-wrap .hp").css({"background" : "rgba(0,255,100,1)" , "width" : "100%"});
     $(".player-wrap .attack").text(player.baseAttack*level);
     
 }
+
 function roundReady(){
     if(level > 1){ 
         buttonReady(2);
@@ -112,26 +110,11 @@ function roundReady(){
 function imageWidth(){
     var width = $(".character img").height();
     $(".character img").css("width", width);
-    console.log(width);
 }
 
 imageWidth();
 
-// // CHARACTER BASE ATTACK
-// // CHARACTER ATTACK = CHARACTER BASE ATTACK * LEVEL
-// // CHARACTER HP
-// // CHARACTER COUNTER ATTACK
-
-
-
-//     FUNCTIONS
-//         LOAD START CONTENT
-
-// // ONLOAD:
-// //     LOAD ARRAY OF AVAILABLE CHARACTERS WITH STATS LISTED
-// //     LOAD WINS
-// //     LOAD LOSSES
-
+//returns game to onload look (excluding wins and losses fields)
 function gameReset(){
     $(".wins").text(wins);
     $(".losses").text(losses);
@@ -155,6 +138,7 @@ function gameReset(){
     loadBackdrop();
 }
 
+//clears player
 function playerClear(){
     $(".player-wrap .image-wrap img");
     $(".player-wrap .name");
@@ -162,6 +146,8 @@ function playerClear(){
     $(".player-wrap .counter");
 
 }
+
+//clears the 'defender field' in bottom right corner of arena
 function defenderClear(){
     $(".defender-wrap").addClass("hidden");
     $(".defender-wrap .image-wrap img").empty();
@@ -170,7 +156,7 @@ function defenderClear(){
     $(".defender-wrap .counter").empty();
 }
 
-
+// loads characters at start of game/between rounds
 function loadCharBank(){
     $(".char-bank").empty();
     $(".char-bank").removeClass("hidden");
@@ -199,6 +185,8 @@ function loadCharBank(){
 
 
 
+// handles assignment of user and computer players
+// determines if user has been selected, if not assigns user, if so assigns computer player
 function assignChar() {
         if(player && defender == false){
             var i = $(this).attr("data-character");
@@ -217,7 +205,6 @@ function assignChar() {
             $(".defender-wrap").removeClass("hidden");
             $(".character-"+i).addClass("hidden");
             roundReady();
-            console.log(buttonText);
 
         } else if(player == false){
             var i = $(this).attr("data-character");
@@ -237,6 +224,7 @@ function assignChar() {
 
 }
 
+// runs prior to start of round, basic countdown clock that appears above arena
 function countDown(){
     loadBackdrop();
     if(gameReady === true){
@@ -259,6 +247,7 @@ function countDown(){
     }
 }
 
+// activated by spacebar keyup, causes damage to defender each time function runs
 function playerFight(){
     if(playerActive === true && defender.drain > 0){
         attack = player.baseAttack*level;
@@ -268,17 +257,16 @@ function playerFight(){
         var hpWidth = (defender.drain/defender.hp)*100;
         $(".defender-wrap .hp").css("width" , hpWidth + "%")
         $(".defender-wrap .hp").css("background" , "rgba(" + hpRed + "," + hpGreen + ",50,1)" );
-        // console.log("hp Red" + hpRed);
-        // console.log("hp Green" + hpGreen);
 
-    } else if (defender.drain <= 0){
+
+    } else if (defender.drain <= 0 && playerActive === true){
         endRound();
         winRound();
     }
 }
  
+// function makes the defender attack at a randomly generated interval
 function defenderFight(){
-    console.log("function is running");
     var rand = 200;
     var y = setInterval(function(){
         player.drain = player.drain-(defender.baseAttack-player.counter);
@@ -288,19 +276,11 @@ function defenderFight(){
         $(".player-wrap .hp").css("width" , hpWidth + "%");
         $(".player-wrap .hp").css("background" , "rgba(" + hpRed + "," + hpGreen + ",50,1)" );
 
-
-
-
-//             IF(PLAYER.HP =< 0)
-//                 PLAYER.HP = 0;
-//                 ROUND ACTIVE = FALSE;
-//                 FUNCTION END GAME
         if(player.drain <= 0){
             clearInterval(y);
+            if(playerActive){
             endRound();
-            endGame();
-            loseGame();
-            buttonReady(3);
+            }
         } else if (defenderActive === false){
             clearInterval(y);
         }
@@ -308,22 +288,26 @@ function defenderFight(){
 }
 
 
-
+// loseGame, winGame tally to wins or losses depending on outcome
 function loseGame(){
-    endGame();
     losses++;
+    buttonReady(3);
     $(".losses").text(losses);
 }
 
 function winGame(){
-    endGame();
     wins++;
+    buttonReady(3);
+    $(".wins").text(wins);
+
 }
+
+//Stops battle between players, determines if User has lost the round/game
 function endRound(){
     playerActive = false;
     defenderActive = false;
     if(player.drain <= 0){
-        endGame();
+        loseGame();
     }
 }
 function winRound(){
@@ -336,32 +320,24 @@ function winRound(){
     }
     if(beatAll){
         winGame()
+        beatAll = false;
     } else {
     buttonReady(1);
     }
 }
 
-function endGame(){
-}
 
 
 
-
-
+//jquery events
 $(document).ready(gameReset);
-
 $("body").on("click", ".game-title", gameReset);
 $("body").on("click", ".start", startButton);
 $("body").on("click", ".character", assignChar);
 
-// document.onkeyup = function(event){
-//     if(event.keyCode == 70){
-//         playerFight();
-//     }
-// }
 
 
-
+//Runs playerFight function when clicking spacebar
 document.onkeyup = function(event){
     if(event.keyCode == 32){
         $(".start").blur();
