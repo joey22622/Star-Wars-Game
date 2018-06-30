@@ -9,19 +9,19 @@
 
 * Player goes up against a bank of Star Wars characters with the goal of defeating everyone.  Each character has unique values for hit points, attack power and counter-attack power.
 * After defeating each computer player, the user's character *levels up* and as a result, has their total *attack power* multiply by the new level.
-* Upon defeating every computer player, the user's win tally increases by one and is prompted to play again
+* Upon defeating every computer player, the user's win tally increases by one and is prompted to play again.
 
 **PROGRAMMING / FUNCTIONALITY**
 
-* App is built using the following languages/libraries 
+* App is built using the following languages/libraries: 
   - *HTML* 
   - *CSS* 
   - *JavaScript*
   - *jQuery*
 * As players' health decreases, background color of the health bars proportionately lose green/blue hex values and increase red hex value.
-* With the exception of the character, Jar Jar, every character stands a swinging chance of beating all competitors
-* A custom slideshow rotates photos between game action
-  - Slideshow functions with 2 absolutely positioned divs that load a new image while hidden and take turns fading in
+* With the exception of the character, Jar Jar, every character stands a swinging chance of beating all competitors.
+* A custom slideshow rotates photos between game action.
+  - Slideshow functions with 2 absolutely positioned divs that load a new image while hidden and take turns fading in.
 
 
 **FILE STRUCTURE**
