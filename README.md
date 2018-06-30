@@ -1,7 +1,7 @@
 # Star Wars RPG
 
 
-**DESCRIPTION:** RPG style game that puts Star Wars characters head-to-head in button a button mashing showdown.
+**DESCRIPTION:** RPG style game that puts Star Wars characters head-to-head in a button mashing showdown.
 
 ![App Tutorial](Star-Wars-RPG.gif)
 
